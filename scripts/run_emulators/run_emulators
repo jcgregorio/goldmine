@@ -8,15 +8,18 @@ cmd="$1"
 shift
 
 if [ "$cmd" == "start" ]; then
-  sleep 10 # Give the emulators time to start up before exiting.
-
+  # Test if running on a github workflow.
   if [[ -v GITHUB_ENV ]]; then
+    # No need to sleep here because the next step that uses bazel will need to
+    # wait for the above bazelisk run command to finish.
     echo "DATASTORE_EMULATOR_HOST=localhost:8891" >> "$GITHUB_ENV"
     echo "BIGTABLE_EMULATOR_HOST=localhost:8892" >> "$GITHUB_ENV"
     echo "PUBSUB_EMULATOR_HOST=localhost:8893" >> "$GITHUB_ENV"
     echo "FIRESTORE_EMULATOR_HOST=localhost:8894" >> "$GITHUB_ENV"
     echo "COCKROACHDB_EMULATOR_HOST=localhost:8895" >> "$GITHUB_ENV"
   else
+    sleep 10 # Give the emulators time to start up before exiting.
+
     # The ports below should be kept in sync with run_emulators.go.
     echo Emulators started. Set environment variables as follows:
     echo export DATASTORE_EMULATOR_HOST=localhost:8891
@@ -26,6 +29,7 @@ if [ "$cmd" == "start" ]; then
     echo export COCKROACHDB_EMULATOR_HOST=localhost:8895
   fi
 elif [ "$cmd" == "stop" ]; then
+  # Test if running on a github workflow.
   if [[ -v GITHUB_ENV ]]; then
     echo "DATASTORE_EMULATOR_HOST=" >> "$GITHUB_ENV"
     echo "BIGTABLE_EMULATOR_HOST=" >> "$GITHUB_ENV"
