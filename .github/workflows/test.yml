@@ -15,16 +15,11 @@ jobs:
       uses: actions/checkout@v4
 
     - name: Start emulators
-      run: ./scripts/run_emulators/run_emulators start --dump-logs
+      run: ./scripts/run_emulators/run_emulators start
 
-    - name: TMPDIR ?
-      run: echo ${TMPDIR:-/tmp}
+    - name: Are they running?
+      run: ps aux
 
-    - name: Dump logs
-      run:  ls -al ${TMPDIR:-/tmp}/cloud_emulators.log 
-
-    - name: Dump logs
-      run: cat ${TMPDIR:-/tmp}/cloud_emulators.log 
 
     - name: Build
       run: bazelisk test //perf/...

@@ -1,8 +1,6 @@
 #!/bin/bash
 
 cmd="$1"
-shift
-dump="$1"
 
 TMPDIR="${TMPDIR:-/tmp}"
 bazelisk run --config=mayberemote //scripts/run_emulators "$cmd" &
@@ -45,9 +43,4 @@ elif [ "$cmd" == "stop" ]; then
     echo export FIRESTORE_EMULATOR_HOST=
     echo export COCKROACHDB_EMULATOR_HOST=
   fi
-fi
-
-if [ "$dump" == "--dump-logs" ]; then
-  echo "Emulator logs:"
-  cat ${TMPDIR}/cloud_emulators.log
 fi
