@@ -4,6 +4,7 @@ cmd="$1"
 
 TMPDIR="${TMPDIR:-/tmp}"
 
+bazelisk build --config=mayberemote //scripts/run_emulators
 
 if [ "$cmd" == "start" ]; then
   bazelisk run --config=mayberemote //scripts/run_emulators start &
