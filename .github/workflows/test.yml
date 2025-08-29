@@ -17,5 +17,8 @@ jobs:
     - name: Start emulators
       run: ./scripts/run_emulators/run_emulators start --dump-logs
 
+    - name: Dump logs
+      run: sleep 20 && cat /tmp/cloud_emulators.log 
+
     - name: Build
       run: bazelisk test //perf/...
