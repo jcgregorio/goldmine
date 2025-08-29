@@ -4,9 +4,8 @@ cmd="$1"
 shift
 dump="$1"
 
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 TMPDIR="${TMPDIR:-/tmp}"
-nohup bazelisk run --config=mayberemote //scripts/run_emulators "$cmd" > ${TMPDIR}/cloud_emulators.log &
+bazelisk run --config=mayberemote //scripts/run_emulators "$cmd" &
 
 
 if [ "$cmd" == "start" ]; then
