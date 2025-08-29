@@ -10,6 +10,7 @@ nohup bazelisk run --config=mayberemote //scripts/run_emulators "$cmd" > ${TMPDI
 
 
 if [ "$cmd" == "start" ]; then
+  sleep 20 # Give the emulators time to start up before exiting.
   # Test if running on a github workflow.
   if [[ -v GITHUB_ENV ]]; then
     # No need to sleep here because the next step that uses bazel will need to
@@ -20,7 +21,6 @@ if [ "$cmd" == "start" ]; then
     echo "FIRESTORE_EMULATOR_HOST=localhost:8894" >> "$GITHUB_ENV"
     echo "COCKROACHDB_EMULATOR_HOST=localhost:8895" >> "$GITHUB_ENV"
   else
-    sleep 10 # Give the emulators time to start up before exiting.
 
     # The ports below should be kept in sync with run_emulators.go.
     echo Emulators started. Set environment variables as follows:

@@ -21,7 +21,7 @@ jobs:
       run: echo ${TMPDIR:-/tmp}
 
     - name: Dump logs
-      run: sleep 20 && cat ${TMPDIR:-/tmp}/cloud_emulators.log 
+      run: cat ${TMPDIR:-/tmp}/cloud_emulators.log 
 
     - name: Build
       run: bazelisk test //perf/...
