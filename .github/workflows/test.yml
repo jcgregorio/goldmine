@@ -18,10 +18,10 @@ jobs:
         python-version: '3.13' 
 
     - name: Check python version
-      run: python3 version
+      run: python3 --version
 
     - name: Check python version
-      run: python version
+      run: python --version
 
     - name: Start emulators
       run: ./scripts/run_emulators/run_emulators start
