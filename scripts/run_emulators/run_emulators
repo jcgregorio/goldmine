@@ -3,11 +3,20 @@
 cmd="$1"
 
 TMPDIR="${TMPDIR:-/tmp}"
-bazelisk run --config=mayberemote //scripts/run_emulators "$cmd" &
 
 
 if [ "$cmd" == "start" ]; then
-  sleep 20 # Give the emulators time to start up before exiting.
+  bazelisk run --config=mayberemote //scripts/run_emulators start &
+
+  until [ -f /tmp/run_emulators_finished ]
+  do
+      sleep 5
+  done
+  echo "run_emulators finished running"
+
+  sleep 20
+
+
   # Test if running on a github workflow.
   if [[ -v GITHUB_ENV ]]; then
     # No need to sleep here because the next step that uses bazel will need to
@@ -28,6 +37,14 @@ if [ "$cmd" == "start" ]; then
     echo export COCKROACHDB_EMULATOR_HOST=localhost:8895
   fi
 elif [ "$cmd" == "stop" ]; then
+  bazelisk run --config=mayberemote //scripts/run_emulators stop
+
+  until [ -f /tmp/run_emulators_finished ]
+  do
+      sleep 5
+  done
+  echo "run_emulators finished running"
+
   # Test if running on a github workflow.
   if [[ -v GITHUB_ENV ]]; then
     echo "DATASTORE_EMULATOR_HOST=" >> "$GITHUB_ENV"
@@ -44,3 +61,4 @@ elif [ "$cmd" == "stop" ]; then
     echo export COCKROACHDB_EMULATOR_HOST=
   fi
 fi
+

@@ -13,6 +13,8 @@ import (
 	"go.skia.org/infra/go/sklog"
 )
 
+const flagFileName = "/tmp/run_emulators_finished"
+
 func usage() {
 	fmt.Fprintf(os.Stderr, "Usage: %s [start|stop]\n", filepath.Base(os.Args[0]))
 	os.Exit(1)
@@ -30,6 +32,14 @@ func main() {
 	} else if os.Args[1] != "stop" {
 		usage()
 	}
+
+	if _, err := os.Stat(flagFileName); os.IsExist(err) {
+		err := os.Remove(flagFileName)
+		if err != nil {
+			sklog.Fatal(err)
+		}
+	}
+
 	if err := emulators.StopAllEmulators(); err != nil {
 		sklog.Fatal(err)
 	}
@@ -52,5 +62,8 @@ func main() {
 		for _, e := range emulators.AllEmulators {
 			fmt.Println(fmt.Sprintf("export %s=", emulators.GetEmulatorHostEnvVarName(e)))
 		}
+	}
+	if err := os.WriteFile(flagFileName, []byte("1"), 0666); err != nil {
+		sklog.Fatal("Failed to write out start file.")
 	}
 }
