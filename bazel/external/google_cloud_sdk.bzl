@@ -27,6 +27,7 @@ def _google_cloud_sdk_impl(repository_ctx):
     repository_ctx.download_and_extract(
         url,
         output = "google-cloud-sdk",
+        type = 'tar.gz',
         stripPrefix = "google-cloud-sdk",
     )
 
