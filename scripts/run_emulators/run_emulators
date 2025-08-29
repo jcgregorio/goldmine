@@ -1,11 +1,13 @@
 #!/bin/bash
 
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
-TMPDIR="${TMPDIR:-/tmp}"
-nohup bazelisk run --config=mayberemote //scripts/run_emulators "$@" > ${TMPDIR}/cloud_emulators.log &
-
 cmd="$1"
 shift
+dump="$1"
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+TMPDIR="${TMPDIR:-/tmp}"
+nohup bazelisk run --config=mayberemote //scripts/run_emulators "$cmd" > ${TMPDIR}/cloud_emulators.log &
+
 
 if [ "$cmd" == "start" ]; then
   # Test if running on a github workflow.
@@ -46,7 +48,7 @@ elif [ "$cmd" == "stop" ]; then
   fi
 fi
 
-if [ "$1" == "--dump-logs" ]; then
+if [ "$dump" == "--dump-logs" ]; then
   echo "Emulator logs:"
   cat ${TMPDIR}/cloud_emulators.log
 fi
