@@ -15,7 +15,7 @@ jobs:
       uses: actions/checkout@v4
 
     - name: Start emulators
-      run: ./scripts/run_emulators/run_emulators start
+      run: ./scripts/run_emulators/run_emulators start --dump-logs
 
     - name: Build
       run: bazelisk test //perf/...
