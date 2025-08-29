@@ -16,7 +16,7 @@ def _google_cloud_sdk_impl(repository_ctx):
     if repository_ctx.os.name.lower().startswith("linux"):
         if arch == "amd64":
             url = "https://console.cloud.google.com/storage/browser/_details/cloud-sdk-release/google-cloud-cli-531.0.0-linux-x86_64.tar.gz"
-            hash = "262b8e0b1798d1b66b3e1cff098b57741ad4f6ddd7385c8c4eb16c983aadaf89"
+            hash = "ad1a0fca18ad21ac163c949b8490e4a3fc6c77a9643da7c5e60dc767bb48044c"
     elif repository_ctx.os.name == "mac os x":
         if arch in ("amd64", "x86_64", "aarch64"):
             url = "https://console.cloud.google.com/storage/browser/_details/cloud-sdk-release/google-cloud-cli-531.0.0-darwin-x86_64.tar.gz"
