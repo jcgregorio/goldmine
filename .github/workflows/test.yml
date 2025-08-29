@@ -21,10 +21,11 @@ jobs:
       run: echo ${TMPDIR:-/tmp}
 
     - name: Dump logs
+      run:  ls -al ${TMPDIR:-/tmp}/cloud_emulators.log 
+
+    - name: Dump logs
       run: cat ${TMPDIR:-/tmp}/cloud_emulators.log 
 
     - name: Build
       run: bazelisk test //perf/...
 
-    - name: Dump logs
-      run:  ls -al ${TMPDIR:-/tmp}/cloud_emulators.log 
